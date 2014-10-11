@@ -10,10 +10,11 @@ int main() {
   // sort the thing
   std::cout << "\nsorted list: " << compile_sort(i) << '\n';
 
-  // unique
+  // unique / contains
   std::cout << std::boolalpha << '\n' <<
     all_unique_tuple<std::tuple<int, char, std::string>>::value << '\n' <<
-    all_unique_tuple<std::tuple<int, char, std::string, signed>>::value << '\n';
+    all_unique_tuple<std::tuple<int, char, std::string, signed>>::value << '\n' <<
+    tuple_contains<std::string, std::tuple<int, char, std::string, ints>>::value << '\n';
 
   // for-each
   auto t = std::make_tuple(10, 'c', "Hello, World!\n");
