@@ -9,7 +9,14 @@ int main() {
 
   // sort the thing
   std::cout << "\nsorted list: " << compile_sort(i) << '\n';
+
+  // unique
   std::cout << std::boolalpha << '\n' <<
     all_unique_tuple<std::tuple<int, char, std::string>>::value << '\n' <<
     all_unique_tuple<std::tuple<int, char, std::string, signed>>::value << '\n';
+
+  // for-each
+  auto t = std::make_tuple(10, 'c', "Hello, World!\n");
+  std::cout.put('\n');
+  for_each_tuple_element(t, [](auto&& e){std::cout<<e<<'\n';});
 }

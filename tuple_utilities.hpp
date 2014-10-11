@@ -2,11 +2,20 @@
 
 #include <tuple>
 #include <type_traits>
+#include <utility>
 
 #include <and_bools.hpp>
 
 namespace detail {
+
 struct null { };
+
+template <typename Func, typename Tuple, std::size_t... I>
+void for_each_impl(Tuple&& t, Func&& f, std::index_sequence<I...>) {
+  using swallow = int[];
+  (void) swallow { (void(f(std::get<I>(t))), 0)... };
+}
+
 }
 
 // find if a tuple contains T
@@ -40,3 +49,13 @@ struct all_unique_tuple<std::tuple<T, Ts...>> :
     std::false_type
   >::type
 { };
+
+template <typename Func, typename... Ts>
+void for_each_tuple_element(std::tuple<Ts...>& t, Func&& f) {
+  detail::for_each_impl(t, std::forward<Func>(f), std::make_index_sequence<sizeof...(Ts)>{});
+}
+
+template <typename Func, typename... Ts>
+void for_each_tuple_element(const std::tuple<Ts...>& t, Func&& f) {
+  detail::for_each_impl(t, std::forward<Func>(f), std::make_index_sequence<sizeof...(Ts)>{});
+}
